@@ -190,4 +190,7 @@ SIMPLE_JWT = {
 
 CORS_ALLOW_ALL_ORIGIN = True
 
+CSRF_TRUSTED_ORIGINS = ['https://dtt-production.up.railway.app']
+
+
 AUTH_USER_MODEL = 'api.User'
