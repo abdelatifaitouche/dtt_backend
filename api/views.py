@@ -33,4 +33,14 @@ def dashboard(request):
     return Response({} , status = status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def get_routes(request):
+    routes = [
+        'api/',
+        'api/token',
+        'api/token/refresh/'
+
+    ]
+    return Response({"response" : routes} , status = status.HTTP_200_OK)
+
 
