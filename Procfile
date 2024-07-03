@@ -1,2 +1,2 @@
-web: gunicorn dtt_v1.wsgi --log-file -
+web: gunicorn backend.wsgi --log-file -
 
