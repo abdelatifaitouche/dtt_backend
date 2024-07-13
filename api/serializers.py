@@ -50,3 +50,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = Country
+        fields = ['__all__']
+
+

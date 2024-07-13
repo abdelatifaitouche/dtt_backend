@@ -14,6 +14,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+        
 
 
 
@@ -35,3 +36,14 @@ def save_user_profile(sender , instance , **kwargs):
 
 post_save.connect(create_user_profile , sender=User)
 post_save.connect(save_user_profile , sender = User)
+
+
+
+
+
+class Country(models.Model):
+    country_name = models.CharField(max_length=200)
+    def __str__(self) -> str:
+        return self.country_name
+
+

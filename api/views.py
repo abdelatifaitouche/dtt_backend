@@ -39,8 +39,17 @@ def get_routes(request):
         'api/',
         'api/token',
         'api/token/refresh/'
+        'api/countries'
 
     ]
     return Response({"response" : routes} , status = status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
+def get_countries(request):
+    countries = Country.objects.all()
+    countries_serializer = CountrySerializer(countries , many = True)
+    return Response({'Countries' : countries_serializer.data} , status=status.HTTP_200_OK)
 
 
