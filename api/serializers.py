@@ -53,6 +53,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     class Meta : 
         model = Country
-        fields = ['__all__']
+        fields = '__all__'
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = Service
+        fields = '__all__'
 
 

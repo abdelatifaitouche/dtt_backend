@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view , permission_classes
 from rest_framework import generics , status
 from rest_framework.permissions import AllowAny , IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser 
+
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -38,18 +40,64 @@ def get_routes(request):
     routes = [
         'api/',
         'api/token',
-        'api/token/refresh/'
+        'api/token/refresh/',
         'api/countries'
 
     ]
     return Response({"response" : routes} , status = status.HTTP_200_OK)
 
 
-
+    
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_countries(request):
     countries = Country.objects.all()
     countries_serializer = CountrySerializer(countries , many = True)
     return Response({'Countries' : countries_serializer.data} , status=status.HTTP_200_OK)
 
 
+
+@api_view(['POST'])
+def handleServices(request):
+    if request.method == 'POST' : 
+        print(request.data)
+        country_id = request.data.get('country_id')
+        max_presence = request.data.get('max_presence')
+        country_model = Service.objects.get(country = country_id)
+        greater_answer = f"""
+        According to Algeria - {country_model.country}  DTT rules, the staff presence duration exceeding  days implies the registration 
+                of a Permanent Establishment in Algeria which makes the service taxable by the Algerian tax authority.
+                \n
+                The supplier is liable to register the PE with the tax authorities, under the Common Tax Regime in accordance with the practice in force, which should be mentioned on contract.\n
+                Although suppliers in general avoid the registration of a PE, and prefer to opt for the withholding tax regime and to gross up the amount of the transaction (which is prohibited by Art. 31 of the 2009 Complementary Finance Law),\n          
+    """
+
+        less_answer = f"""
+        1) It is recommended to mention on the contract that << The service will be exempt from WHT in Algeria and taxed in {country_model.country} , in accordance with Algeria - {country_model.country} DTT rules >>.\n\n
+        2) A copy of the Tax Residence Certificate should be included in the payment file submitted to the tax authorities.\n
+
+    """
+
+        
+        if int(max_presence) > country_model.max_presences :  
+            return Response({'answer' : greater_answer} , status = status.HTTP_200_OK)
+        else : 
+            return Response({'answer' : less_answer} , status = status.HTTP_200_OK)
+    return Response({'answer' : 'Unkown response'} , status=status.HTTP_400_BAD_REQUEST)
+
+
+
+#i want to send the country and max_presence
+    #get the data 
+        #find the service with the country info
+            #compare both max presence and country presence
+                #return a coresponding response
+
+"""
+the payload should be like this : 
+{
+"country_id" : 2 , 
+"max_presence" : 180
+}
+
+"""

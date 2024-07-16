@@ -46,4 +46,13 @@ class Country(models.Model):
     def __str__(self) -> str:
         return self.country_name
 
+class Service(models.Model):
+    title = models.CharField(max_length=100)
+    country = models.ForeignKey('api.Country' , on_delete=models.CASCADE)
+    max_presences = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.title
+
+
 
