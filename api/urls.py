@@ -11,5 +11,6 @@ urlpatterns = [
     path('register/' , RegisterView.as_view()),
     path('dashboard/' , dashboard),
     path('countries/' , get_countries , name='list_countries'),
-    path('services/' , handleServices , name='handle services')
+    path('services/' , handleServices , name='handle services'),
+    path('redevences/<int:pk>' , handleRedevences , name ='handle Redevences')
 ]

@@ -101,3 +101,17 @@ the payload should be like this :
 }
 
 """
+
+
+#remembre in the front end that you just have to create a state variable that will hold the id : const [id , setId] = useState(null)
+#then send a get request to this url https://domain.com/api/redevences/id
+
+@api_view(['GET'])
+def handleRedevences(request , pk):
+    if request.method == 'GET' : 
+        print(request.data)
+        country_id = Country.objects.get(id = pk)
+        redevences_conditions = RedevencesConditions.objects.filter(country = country_id)
+        redevences_conditions_serializer = RedevencesConditionsSerializer(redevences_conditions , many = True).data
+        return Response({'country_conditions' : redevences_conditions_serializer } , status=status.HTTP_200_OK)
+    return Response({'response' : 'No response available for your request'} , status=status.HTTP_400_BAD_REQUEST)

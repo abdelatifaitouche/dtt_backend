@@ -60,4 +60,8 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = Service
         fields = '__all__'
 
+class RedevencesConditionsSerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = RedevencesConditions
+        fields = '__all__'
 
