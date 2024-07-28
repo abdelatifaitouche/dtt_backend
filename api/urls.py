@@ -12,5 +12,6 @@ urlpatterns = [
     path('dashboard/' , dashboard),
     path('countries/' , get_countries , name='list_countries'),
     path('services/' , handleServices , name='handle services'),
-    path('redevences/<int:pk>' , handleRedevences , name ='handle Redevences')
+    path('redevences/<int:pk>' , handleRedevences , name ='handle Redevences'),
+    path('dividendes/<int:pk>' , handleDividendes , name='handle dividendes')
 ]

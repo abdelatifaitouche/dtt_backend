@@ -65,3 +65,8 @@ class RedevencesConditionsSerializer(serializers.ModelSerializer):
         model = RedevencesConditions
         fields = '__all__'
 
+class DividendesConditionsSerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = DividendesConditions
+        fields = '__all__'
+
