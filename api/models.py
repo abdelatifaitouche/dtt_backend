@@ -76,3 +76,12 @@ class DividendesConditions(models.Model):
     
     def __str__(self) -> str:
         return self.title
+
+class IntrestConditions(models.Model):
+    title = models.CharField(max_length=150)
+    country = models.ForeignKey('api.Country' , on_delete=models.CASCADE)
+    condition = models.CharField(max_length=300)
+    taux = models.FloatField()
+    
+    def __str__(self) -> str:
+        return self.title

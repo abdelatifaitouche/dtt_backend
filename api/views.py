@@ -127,3 +127,13 @@ def handleDividendes(request , pk):
         dividendes_conditions_serializer = DividendesConditionsSerializer(dividendes_condtions , many = True).data
         return Response({'country_conditions' : dividendes_conditions_serializer } , status=status.HTTP_200_OK)
     return Response({'response' : 'No response available for your request'} , status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def handleIntrests(request , pk):
+    if request.method == 'GET' : 
+        print(request.data)
+        country_id = Country.objects.get(id = pk)
+        intrests_conditions = DividendesConditions.objects.filter(country = country_id)
+        intrest_conditions_serializer = DividendesConditionsSerializer(intrests_conditions , many = True).data
+        return Response({'country_conditions' : intrest_conditions_serializer } , status=status.HTTP_200_OK)
+    return Response({'response' : 'No response available for your request'} , status=status.HTTP_400_BAD_REQUEST)

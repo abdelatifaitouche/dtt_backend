@@ -70,3 +70,7 @@ class DividendesConditionsSerializer(serializers.ModelSerializer):
         model = DividendesConditions
         fields = '__all__'
 
+class IntrestsConditionsSerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = IntrestConditions
+        fields = '__all__'
