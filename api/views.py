@@ -65,7 +65,7 @@ def handleServices(request):
         max_presence = request.data.get('max_presence')
         country_model = Service.objects.get(country = country_id)
         greater_answer = f"""
-        According to Algeria - {country_model.country}  DTT rules, the staff presence duration exceeding  days implies the registration 
+        According to Algeria - {country_model.country}  DTT rules, the staff presence duration exceeding {country_model.max_presences}  days implies the registration 
                 of a Permanent Establishment in Algeria which makes the service taxable by the Algerian tax authority.
                 \n
                 The supplier is liable to register the PE with the tax authorities, under the Common Tax Regime in accordance with the practice in force, which should be mentioned on contract.\n
