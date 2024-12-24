@@ -36,6 +36,7 @@ def dashboard(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_routes(request):
     routes = [
         'api/',
@@ -58,6 +59,7 @@ def get_countries(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def handleServices(request):
     if request.method == 'POST' : 
         print(request.data)
@@ -107,6 +109,7 @@ the payload should be like this :
 #then send a get request to this url https://domain.com/api/redevences/id
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def handleRedevences(request , pk):
     if request.method == 'GET' : 
         print(request.data)
@@ -119,6 +122,7 @@ def handleRedevences(request , pk):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def handleDividendes(request , pk):
     if request.method == 'GET' : 
         print(request.data)
@@ -129,6 +133,7 @@ def handleDividendes(request , pk):
     return Response({'response' : 'No response available for your request'} , status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def handleIntrests(request , pk):
     if request.method == 'GET' : 
         print(request.data)
