@@ -107,7 +107,7 @@ the payload should be like this :
 
 #remembre in the front end that you just have to create a state variable that will hold the id : const [id , setId] = useState(null)
 #then send a get request to this url https://domain.com/api/redevences/id
-
+#just some blabla to test
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def handleRedevences(request , pk):
