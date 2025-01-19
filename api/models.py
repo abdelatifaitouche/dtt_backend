@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 
@@ -85,3 +86,13 @@ class IntrestConditions(models.Model):
     
     def __str__(self) -> str:
         return self.title
+
+
+
+class ReponseTemplate(models.Model):
+    titre = models.CharField(max_length=200 , null=False , blank=False)
+    reponse = RichTextField(null=True, blank=True)
+    max_presence_Superieur = models.BooleanField(default=False , blank=True , null=True)
+
+    def __str__(self):
+        return self.titre

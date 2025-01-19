@@ -59,32 +59,18 @@ def get_countries(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def handleServices(request):
     if request.method == 'POST' : 
         print(request.data)
         country_id = request.data.get('country_id')
         max_presence = request.data.get('max_presence')
         country_model = Service.objects.get(country = country_id)
-        greater_answer = f"""
-        According to Algeria - {country_model.country}  DTT rules, the staff presence duration exceeding {country_model.max_presences}  days implies the registration 
-                of a Permanent Establishment in Algeria which makes the service taxable by the Algerian tax authority.
-                \n
-                The supplier is liable to register the PE with the tax authorities, under the Common Tax Regime in accordance with the practice in force, which should be mentioned on contract.\n
-                Although suppliers in general avoid the registration of a PE, and prefer to opt for the withholding tax regime and to gross up the amount of the transaction (which is prohibited by Art. 31 of the 2009 Complementary Finance Law),\n          
-    """
 
-        less_answer = f"""
-        1) It is recommended to mention on the contract that << The service will be exempt from WHT in Algeria and taxed in {country_model.country} , in accordance with Algeria - {country_model.country} DTT rules >>.\n\n
-        2) A copy of the Tax Residence Certificate should be included in the payment file submitted to the tax authorities.\n
-
-    """
-
-        
-        if int(max_presence) > country_model.max_presences :  
-            return Response({'answer' : greater_answer} , status = status.HTTP_200_OK)
-        else : 
-            return Response({'answer' : less_answer} , status = status.HTTP_200_OK)
+        condition = int(max_presence)> country_model.max_presences
+        reponse = ReponseTemplate.objects.filter(max_presence_Superieur = condition) #we check directly the condition if its the greater or less, and return the coresponding data
+        reponse_serializer = ReponseTemplateSerializer(reponse , many=True)
+        return Response({'answer' : reponse_serializer.data} , status = status.HTTP_200_OK)
+       
     return Response({'answer' : 'Unkown response'} , status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -97,10 +83,7 @@ def handleServices(request):
 
 """
 the payload should be like this : 
-{
-"country_id" : 2 , 
-"max_presence" : 180
-}
+ 
 
 """
 

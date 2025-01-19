@@ -74,3 +74,10 @@ class IntrestsConditionsSerializer(serializers.ModelSerializer):
     class Meta : 
         model = IntrestConditions
         fields = '__all__'
+
+
+
+class ReponseTemplateSerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = ReponseTemplate
+        fields = '__all__'
