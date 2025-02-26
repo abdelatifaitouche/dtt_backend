@@ -13,9 +13,22 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+ENVIRONEMENT = os.getenv("DJANGO_ENV" , "development")
+
+
+if ENVIRONEMENT == "production" : 
+    load_dotenv(os.path.join(BASE_DIR , ".env.prod"))
+else : 
+    load_dotenv(os.path.join(BASE_DIR , ".env.dev"))
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +38,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4$zab8g-@^6&ebjn-4otm&h@w=cttwoxb-lzn7gkf%q5y&veh!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = ['*']
 
@@ -81,7 +94,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+""""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -92,15 +105,15 @@ DATABASES = {
 
 DATABASES = {
     'default' : {
-        'ENGINE' : 'django.db.backends.postgresql',
-        'NAME' : 'railway',
-        'USER' : 'postgres',
-        'PASSWORD' : 'JtubNzIoYyGaIQRIjkzbxJmkceTsedjg',
-        'HOST' : 'viaduct.proxy.rlwy.net',
-        'PORT' : '54317'
+        'ENGINE' : os.getenv("DATABASE_ENGINE"),
+        'NAME' : os.getenv("DATABASE_NAME"),
+        'USER' : os.getenv("DATABASE_USER"),
+        'PASSWORD' : os.getenv("DATABASE_PASSWORD"),
+        'HOST' : os.getenv("DATABASE_HOST"),
+        'PORT' : os.getenv("DATABASE_PORT"),
     }
 }
-"""
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -61,10 +61,22 @@ def get_countries(request):
 @api_view(['POST'])
 def handleServices(request):
     if request.method == 'POST' : 
-        print(request.data)
         country_id = request.data.get('country_id')
         max_presence = request.data.get('max_presence')
+        #check if the country is Other no DTT
+            #return the default response 
+
+        country_selected = Country.objects.get(id = country_id)
+
+        if (country_selected.country_name == "Other (No DTT)"):
+            reponse = ReponseTemplate.objects.filter(default_response = True) #we check directly the condition if its the greater or less, and return the coresponding data
+            reponse_serializer = ReponseTemplateSerializer(reponse , many=True)
+            return Response({'answer' : reponse_serializer.data} , status = status.HTTP_200_OK)
+
+
         country_model = Service.objects.get(country = country_id)
+
+        
 
         condition = int(max_presence)> country_model.max_presences
         reponse = ReponseTemplate.objects.filter(max_presence_Superieur = condition) #we check directly the condition if its the greater or less, and return the coresponding data
