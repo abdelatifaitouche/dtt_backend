@@ -93,6 +93,6 @@ class ReponseTemplate(models.Model):
     titre = models.CharField(max_length=200 , null=False , blank=False)
     reponse = RichTextField(null=True, blank=True)
     max_presence_Superieur = models.BooleanField(default=False , blank=True , null=True)
-
+    default_response = models.BooleanField(default=False , null=True)
     def __str__(self):
         return self.titre
