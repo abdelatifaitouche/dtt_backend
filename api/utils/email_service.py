@@ -24,7 +24,8 @@ def email_verification(email):
         #this link should point to your frontend for redirection, then in the frontend, make a api post request to this route below
         #http://localhost:3000/verify-email/
         #http://127.0.0.1:8000/api/verify-email/{token}/
-        verification_link = f"http://localhost:3000/verify-email/{token}"
+        #verification_link = f"http://localhost:3000/verify-email/{token}"
+        verification_link = f"http://gtdtt.digital/verify-email/{token}"
 
     # Send email
         send_mail(
