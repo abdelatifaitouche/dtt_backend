@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from api.models import * 
 # Create your views here.
 from api.serializers import * 
@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny , IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser 
 
-
+from .utils.email_service import verify_token
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainSerializer
@@ -19,6 +19,28 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = ([AllowAny])
     serializer_class = RegisterSerializer
+#hello
+
+
+
+
+@api_view(['GET'])
+def verify_email(request, token):
+    print("from the verifcation :" , token)
+    email = verify_token(token)
+    print("from the verify email" , email)
+    if email is None:
+        return Response({'error': 'Invalid or expired token'}, status=400)
+
+    user = get_object_or_404(User, email=email)
+    user.is_active = True
+    user.save()
+
+    return Response({'message': 'Email verified successfully! You can now log in.'})
+    
+
+    
+
 
 
 
@@ -86,23 +108,6 @@ def handleServices(request):
     return Response({'answer' : 'Unkown response'} , status=status.HTTP_400_BAD_REQUEST)
 
 
-
-#i want to send the country and max_presence
-    #get the data 
-        #find the service with the country info
-            #compare both max presence and country presence
-                #return a coresponding response
-
-"""
-the payload should be like this : 
- 
-
-"""
-
-
-#remembre in the front end that you just have to create a state variable that will hold the id : const [id , setId] = useState(null)
-#then send a get request to this url https://domain.com/api/redevences/id
-#just some blabla to test
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def handleRedevences(request , pk):

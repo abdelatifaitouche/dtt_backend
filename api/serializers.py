@@ -3,6 +3,8 @@ from api.models import *
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from .utils.email_service import email_verification
+from rest_framework.exceptions import AuthenticationFailed
 
 
 
@@ -17,14 +19,22 @@ class MyTokenObtainSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-     
-        token['full_name'] = user.profile.full_name
+        
+        # Add custom claims
+        token['full_name'] = user.profile.full_name  # Ensure profile exists
         token['username'] = user.username
         token['email'] = user.email
-        
-        return token
-    
 
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        user = self.user  # ✅ This works because `TokenObtainPairSerializer` sets `self.user`
+        if not user.is_active:
+            raise AuthenticationFailed('Email not verified. Please check your inbox.', code='authorization')
+
+        return data
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -59,6 +69,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         #send an email confirmation
+        response = email_verification(validated_data['email'])
+        print(response)
 
         return user
 

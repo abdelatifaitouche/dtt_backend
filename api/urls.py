@@ -13,5 +13,8 @@ urlpatterns = [
     path('services/' , handleServices , name='handle services'),
     path('redevences/<int:pk>' , handleRedevences , name ='handle Redevences'),
     path('dividendes/<int:pk>' , handleDividendes , name='handle dividendes'),
-    path('intrests/<int:pk>' , handleIntrests , name='handle Intrests')
+    path('intrests/<int:pk>' , handleIntrests , name='handle Intrests'),
+
+
+    path('verify-email/<str:token>/', verify_email, name='verify-email'),
 ]

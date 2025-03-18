@@ -102,19 +102,20 @@ DATABASES = {
     }
 }
 
+
 """
 DATABASES = {
     'default' : {
-        'ENGINE' : os.getenv("DATABASE_ENGINE"),
-        'NAME' : os.getenv("DATABASE_NAME"),
-        'USER' : os.getenv("DATABASE_USER"),
-        'PASSWORD' : os.getenv("DATABASE_PASSWORD"),
-        'HOST' : os.getenv("DATABASE_HOST"),
-        'PORT' : os.getenv("DATABASE_PORT"),
+        'ENGINE' : "django.db.backends.postgresql",
+        'NAME' : "dtt_db",
+        'USER' : "dtt_manager",
+        'PASSWORD' : "Grant_dev_dtt",
+        'HOST' : "127.0.0.1",
+        'PORT' : "5432",
     }
 }
-
 """
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -208,3 +209,14 @@ CSRF_TRUSTED_ORIGINS = ['https://dtt-production.up.railway.app' , "http://localh
 
 
 AUTH_USER_MODEL = 'api.User'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.gt.dz'
+EMAIL_HOST_USER = "noreply@gt.dz"
+EMAIL_HOST_PASSWORD = "Ad@GT2025!!"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+
