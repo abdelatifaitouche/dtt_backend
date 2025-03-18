@@ -9,7 +9,7 @@ from ckeditor.fields import RichTextField
 class User(AbstractUser):
     username = models.CharField(max_length = 150)
     email = models.EmailField(unique=True)
-
+    accepted_terms = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS =  ['username',]
 

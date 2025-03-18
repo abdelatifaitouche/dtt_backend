@@ -27,26 +27,39 @@ class MyTokenObtainSerializer(TokenObtainPairSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only = True , required = True , validators = [validate_password])
-    password2 = serializers.CharField(write_only = True , required = True)
-    class Meta : 
-        model = User
-        fields = ['email' , 'username' , 'password' , 'password2']
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+    accepted_terms = serializers.BooleanField(write_only=True, required=True)
 
-    def validate(self , attrs):
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'password', 'password2', 'accepted_terms']
+
+    def validate(self, attrs):
+        # Ensure passwords match first
         if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError(
-                {'password' : 'Password Fields does not match'}
-            )
+            raise serializers.ValidationError({"password": "Password fields do not match"})
+
+        # Ensure terms are accepted
+        if not attrs.get('accepted_terms', False):
+            raise serializers.ValidationError({"accepted_terms": "You must accept the terms and conditions to register."})
+
         return attrs
-    
-    def create(self,validated_data):
+
+    def create(self, validated_data):
+        validated_data.pop('password2')  # Remove password2 since it's not in the model
+        accepted_terms = validated_data.pop('accepted_terms')  # Extract and remove from data
+
         user = User.objects.create(
-            username = validated_data['username'] , 
-            email = validated_data['email'],
-            )
-        user.set_password(validated_data['password'])
+            username=validated_data['username'],
+            email=validated_data['email'],
+            accepted_terms=accepted_terms  # Explicitly set accepted_terms
+        )
+        user.set_password(validated_data['password'])  # Hash password
         user.save()
+
+        #send an email confirmation
+
         return user
 
 

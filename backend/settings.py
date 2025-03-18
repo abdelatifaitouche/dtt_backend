@@ -94,15 +94,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-""""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-"""
 
+"""
 DATABASES = {
     'default' : {
         'ENGINE' : os.getenv("DATABASE_ENGINE"),
@@ -114,7 +114,7 @@ DATABASES = {
     }
 }
 
-
+"""
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -202,9 +202,9 @@ SIMPLE_JWT = {
 }
 
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = ['https://dtt-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://dtt-production.up.railway.app' , "http://localhost:3000"]
 
 
 AUTH_USER_MODEL = 'api.User'
